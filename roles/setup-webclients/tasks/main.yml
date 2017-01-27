@@ -1,0 +1,4 @@
+- name: install web clients
+  pip: name="{{ item }}"
+  notify: restart-services
+  with_items: "{{ webclients.pip }}"

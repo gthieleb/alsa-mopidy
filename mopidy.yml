@@ -1,0 +1,38 @@
+---
+- hosts: audio-stations 
+  become: true
+  gather_facts: true
+  vars:
+      optimise:
+          internal_audio: true
+          dac: false
+      user: mopidy
+      httpd: 
+        hostname: "0.0.0.0"
+      mpd: 
+        hostname: "127.0.0.1"
+      services:
+        - mopidy
+      main:
+        apt:
+          - ntp
+          - mopidy
+          - python-pip
+      extensions:
+        apt:
+          - mopidy-tunein
+          - mopidy-local-sqlite
+          - mopidy-alsamixer
+      webclients:
+        pip:
+          - Mopidy-MusicBox-Webclient
+
+  handlers:
+    - include: roles/setup/handlers/main.yml 
+            
+  roles:
+    - setup
+    - setup-extensions
+    - setup-webclients
+    - soundcard-settings
+

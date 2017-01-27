@@ -1,0 +1,16 @@
+- name: restart-services
+  service: name={{ item }} state=restarted
+  with_items: "{{ services }}"
+
+- name: enable-services
+  service: name={{ item }} enabled=yes
+  with_items: "{{ services }}"
+
+- name: reboot-server
+  shell: sleep 2 && reboot
+  async: 1
+  poll: 0
+
+- name: wait-for-reboot
+  local_action:
+    module: wait_for host="{{ ansible_default_ipv4.address }}" port=22 delay=20 timeout=300

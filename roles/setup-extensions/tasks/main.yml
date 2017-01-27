@@ -1,0 +1,4 @@
+- name: install extensions packages
+  apt: name="{{ item }}"
+  notify: restart-services
+  with_items: "{{ extensions.apt }}"

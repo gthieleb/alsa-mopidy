@@ -1,0 +1,39 @@
+- name: install rpi-update
+  apt: name=rpi-update state=latest
+
+- name: update to latest rpi-update firmware
+  shell: rpi-update
+  environment: 
+      SKIP_WARNING: 1
+  notify: 
+      - reboot-server
+      - wait-for-reboot
+
+- name: internal_audio optimisation in /boot/config.txt
+  # Before 2.3, option 'dest' or 'name' was used instead of 'path'
+  blockinfile:
+      marker: "# {mark} ANSIBLE MANAGED BLOCK 1"
+      dest: /boot/config.txt
+      block: |
+          # https://www.raspberrypi.org/forums/viewtopic.php?f=29&t=136445&hilit=sound+config.txt
+          audio_pwm_mode=2
+  when: "{{ optimise.internal_audio }}"
+  notify: 
+      - reboot-server
+      - wait-for-reboot
+
+- name: internal_audio optimisation in /boot/config.txt
+  # Before 2.3, option 'dest' or 'name' was used instead of 'path'
+  blockinfile:
+      marker: "# {mark} ANSIBLE MANAGED BLOCK 2"
+      dest: /boot/config.txt
+      block: |
+          # should improve jitter source when used with DAC
+          # http://www.computeraudiophile.com/f10-music-servers/raspberry-pi-add-dacs-20067/#post399306
+          arm_freq=400
+          sdram_freq=250
+          core_freq=250
+  when: "{{ optimise.dac }}"
+  notify: 
+      - reboot-server
+      - wait-for-reboot
