@@ -3,8 +3,12 @@
   become: true
   gather_facts: true
   vars:
+      mopidy:
+          playlists_dir: "/var/lib/mopidy/playlists"
+          media_dir: "/media/Music"
       optimise:
           internal_audio: true
+          update_firmware: false
           dac: false
       user: mopidy
       httpd: 
@@ -20,7 +24,10 @@
           - python-pip
       extensions:
         apt:
+          - mopidy-podcast
+          - mopidy-somafm
           - mopidy-tunein
+          - mopidy-youtube
           - mopidy-local-sqlite
           - mopidy-alsamixer
       webclients:

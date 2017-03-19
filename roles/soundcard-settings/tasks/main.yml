@@ -8,6 +8,7 @@
   notify: 
       - reboot-server
       - wait-for-reboot
+  when: "{{ optimise.update_firmware }}"
 
 - name: internal_audio optimisation in /boot/config.txt
   # Before 2.3, option 'dest' or 'name' was used instead of 'path'

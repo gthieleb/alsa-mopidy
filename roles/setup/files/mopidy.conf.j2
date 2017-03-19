@@ -8,10 +8,10 @@ config_file = /etc/mopidy/logging.conf
 debug_file = /var/log/mopidy/mopidy-debug.log
 
 [local]
-media_dir = /var/lib/mopidy/media
+media_dir = "{{ mopidy.media_dir }}"
 
 [m3u]
-playlists_dir = /var/lib/mopidy/playlists
+playlists_dir = "{{ mopidy.playlists_dir }}"
 
 [mpd]
 #enabled = true
