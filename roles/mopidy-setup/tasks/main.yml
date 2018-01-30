@@ -14,5 +14,5 @@
   pip:  name=pip state=latest
 
 - name: rollout local config
-  template:  src="files/mopidy.conf.j2" dest="/etc/mopidy/mopidy.conf" owner="{{ user }}" mode="750"
+  template:  src="files/mopidy.conf.j2" dest="/etc/mopidy/mopidy.conf" owner="{{ mopidy.user }}" mode="750"
   notify: restart-services

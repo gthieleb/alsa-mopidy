@@ -1,7 +1,0 @@
-- name: restart-services
-  service: name={{ item }} state=restarted
-  with_items: "{{ services }}"
-
-- name: enable-services
-  service: name={{ item }} enabled=yes
-  with_items: "{{ services }}"

@@ -1,10 +1,10 @@
 - name: restart-services
   service: name={{ item }} state=restarted
-  with_items: "{{ services }}"
+  with_items: "{{ mopidy.services }}"
 
 - name: enable-services
   service: name={{ item }} enabled=yes
-  with_items: "{{ services }}"
+  with_items: "{{ mopidy.services }}"
 
 - name: reboot-server
   shell: sleep 2 && reboot

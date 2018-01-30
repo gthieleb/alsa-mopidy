@@ -1,45 +1,50 @@
 ---
-- hosts: audio-stations 
+- hosts: mopidy-host
   become: true
   gather_facts: true
   vars:
-      mopidy:
-          playlists_dir: "/var/lib/mopidy/playlists"
-          media_dir: "/media/Music"
-      optimise:
-          internal_audio: true
-          update_firmware: false
-          dac: false
+    soundcard:
+      internal_audio: true
+      improve_dac: false
+      update_firmware: false
+    mopidy:
+      playlists_dir: "/var/lib/mopidy/playlists"
+      media_dir: "/var/lib/mopidy/music"
       user: mopidy
-      httpd: 
-        hostname: "0.0.0.0"
       mpd: 
-        hostname: "127.0.0.1"
+        enabled: True
+        hostname: "::"
+        password: ""
+      http:
+        enabled: False
+        # IPv6
+        hostname: "::" 
+        # IPv4
+        # hostname: "0.0.0.0" 
+        password: ""
       services:
         - mopidy
-      main:
-        apt:
-          - ntp
-          - mopidy
-          - python-pip
-      extensions:
-        apt:
-          - mopidy-podcast
-          - mopidy-somafm
-          - mopidy-tunein
-          - mopidy-youtube
-          - mopidy-local-sqlite
-          - mopidy-alsamixer
-      webclients:
-        pip:
-          - Mopidy-MusicBox-Webclient
+    main:
+      apt:
+        - ntp
+        - mopidy
+        - python-pip
+    extensions:
+      apt:
+        - mopidy-podcast
+        - mopidy-somafm
+        - mopidy-tunein
+        - mopidy-youtube
+        - mopidy-local-sqlite
+        - mopidy-alsamixer
+    webclients:
+      pip:
+        - Mopidy-MusicBox-Webclient
 
   handlers:
     - include: roles/setup/handlers/main.yml 
-            
   roles:
-    - setup
-    - setup-extensions
-    - setup-webclients
-    - soundcard-settings
+    - mopidy-setup
+    - mopidy-setup-extensions
+    # - raspbian-soundcard-settings
 
