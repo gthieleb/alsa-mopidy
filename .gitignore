@@ -1,5 +1,6 @@
 # ansible fragments
 **.retry
+hosts.list
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
