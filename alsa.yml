@@ -1,0 +1,16 @@
+---
+  ### sets the volume level for sound device and stores as default
+- hosts: mopidy-host
+  gather_facts: false
+  vars: 
+    volume_level: "90%"
+    alsa_device: "PCM"
+  tasks:
+      - shell: "amixer sget '{{ alsa_device }}'"
+        changed_when: false
+        register: alsa
+      - set_fact: alsa_volume_level="{{ alsa.stdout_lines[4].split()[3] }}"
+      - shell: "amixer sset '{{ alsa_device }}' {{ volume_level }} && /usr/sbin/alsactl store"
+        become: true
+        when: alsa_volume_level != "[{0}]".format(volume_level)
+      
